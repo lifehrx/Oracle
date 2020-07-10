@@ -12,7 +12,7 @@
     Select * From Dba_Tablespaces；
 
 1.创建表空间
-create tablespace MengDa
+create tablespace Test
     logging
     datafile 'F:\app\pc\oradata\Test.dbf'
     size 32m
