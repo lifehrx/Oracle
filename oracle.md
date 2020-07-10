@@ -1,4 +1,5 @@
 ### 1.建库建表
+\\\
 创建表空间步骤
 最高权限用户：
 用户名：MengDa
@@ -37,7 +38,7 @@ grant authenticateduser to MengDa with admin option;
 grant dba to MengDa with admin option;
 
 grant unlimited tablespace to MengDa with admin option;
-
+\\\
 ### 2.多表联动查询
 
 ### 3.多表联动插入
