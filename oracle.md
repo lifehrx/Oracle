@@ -39,6 +39,10 @@ grant dba to Test with admin option;
 grant unlimited tablespace to Test with admin option;
 ```
 ### 2.多表联动查询
+```
+例如：查询巡检路线下的所有巡检项
+select 父表  where 条件 in (    select 子表 where 条件 in (            ));
+```
 
 ### 3.多表联动插入
 
