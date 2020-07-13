@@ -59,7 +59,7 @@ SQL语句：
 ### 3.多表联动查询（子表->父表）
 ```XML
 例如：查询某一巡检项所属的巡检路线
-子表 left join 父表 on id=id
+子表 left join 父表 on where id1 = id2
 ```
 
 ### 3.多表联动插入
