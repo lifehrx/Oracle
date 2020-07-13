@@ -42,6 +42,18 @@ grant unlimited tablespace to Test with admin option;
 ```
 例如：查询巡检路线下的所有巡检项
 select 父表  where 条件 in (    select 子表 where 条件 in (            ));
+SQL语句：
+<select id="selectAllMonitoringDataByRouteId" resultType="java.lang.String">
+    select id from MONITORING_DATA where MONITORING_DATA.INSPECTION_ITEM_ID in (
+        select id from INSPECTION_ITEM  WHERE INSPECTION_ITEM.SITE_ID in(
+          select INSPECTION_SITE.ID FROM INSPECTION_SITE LEFT JOIN INSPECTION_ITEM on INSPECTION_ITEM.SITE_ID = INSPECTION_SITE.ID
+            WHERE  1 =1
+            <if test="inspectionRouteId != null and inspectionRouteId != ''">
+               INSPECTION_ROUTE_ID = #{inspectionRouteId}
+             </if>
+   )
+)
+  </select>
 ```
 
 ### 3.多表联动插入
