@@ -105,3 +105,51 @@ SQL语句：
 3. 删除所有MengDa表，否则flyway报错。
 4. 启动项目重新生成项目下的所有表
 ```
+### 8.  oracle 数据库获取主键自增长的ID
+```XML 标签 加入如下字段
+keyProperty="id" keyColumn="ID" useGeneratedKeys="true"
+<insert id="insertInTagNumMonitorPoint" keyProperty="id" keyColumn="ID" useGeneratedKeys="true" parameterType="com.fulongtech.rtds.entity.TagNumMonitorPoint">
+    INSERT INTO TAG_NUM__MONITOR_POINT (MONITOR_POINT, K_DESCRIPTOR, DEVICE, TAG_NUM, UNIT, CREATEDATE, ID)
+    VALUES (#{monitorPoint,jdbcType=VARCHAR}, #{kDescriptor,jdbcType=VARCHAR}, #{device,jdbcType=VARCHAR},
+            #{tagNum,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{id,jdbcType=VARCHAR})
+</insert>
+
+
+要在代码中
+1. 先获取父表的自增长ID ，取出来
+2. 插入到子表ID
+3. 原因是ID是子表和父表的唯一外键
+```
+```java
+/**
+ * 新增一条测点位号
+ * @param tagNumMonitorPoint
+ * @return
+ */
+@Override
+@Transactional(rollbackFor=Exception.class)
+public Result insertTagNumMonitorPoint(final TagNumMonitorPoint tagNumMonitorPoint) {
+
+    try {
+
+        tagNumMonitorPoint.setCreateDate(systemCurrentTime);
+        // 1. 先在父表中插入
+        tagNumMonitorPointMapper.insertInTagNumMonitorPoint(tagNumMonitorPoint);
+
+        // 2. 获取父表的自增长id
+        BigDecimal id = tagNumMonitorPoint.getId();
+
+        // 3. 注入到子表的id
+        tagNumMonitorPoint.setId(id);
+
+        // 4. 最后插入子表中
+        limitsMapper.insertInMonitorPointLimits(tagNumMonitorPoint);
+
+        return ResultUtil.success("插入数据成功成功。");
+    } catch (Exception e) {
+        e.printStackTrace();
+        return ResultUtil.error(102, "插入数据失败。");
+    }
+}
+```
+
