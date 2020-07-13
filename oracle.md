@@ -3,7 +3,7 @@
 最高权限用户：
 用户名：Test
 密  码：root
-```
+```SQL
 1.sqlplus /nolog
 
 2.connect sys/orcl@ORCL as sysdba
