@@ -57,30 +57,34 @@ SQL语句：
 ```
 
 ### 3.多表联动查询（子表->父表）
-```XML
-例如：查询某一巡检项所属的巡检路线
-子表 left join 父表 on where id1 = id2
-```
+>XML
+>
+>例如：查询某一巡检项所属的巡检路线
+>
+>子表 left join 父表 on where id1 = id2
+
 
 ### 3.多表联动插入
-```XML
-1. 先插入父表
-2. 再插入子表
-```
+>1. 先插入父表
+>
+>2. 再插入子表
+
 
 ### 4.多表联动更新
-```XML
-注意：注意外键关联的字段和主键id要区分开（不能用同一个）
-1. 先更新子表
-2. 再更新父表
-```
+>注意：注意外键关联的字段和主键id要区分开（不能用同一个）
+>
+>1. 先更新子表
+>
+>2. 再更新父表
+
 
 ### 5.多表联动删除
+>1. 查子表 ，删子表 如果不是子表会报视图错误
+>
+>2. 联动删除时注意 删除条件不能是外键，建议用id
+>
+>3. 删除父表 最后删除父表
 ```XML
-1. 查子表 ，删子表 如果不是子表会报视图错误
-2. 联动删除时注意 删除条件不能是外键，建议用id
-3. 删除父表 最后删除父表
-
 <!-- 1. 必须查出来的是子表 2. 删除条件必须是外键 否则会报错 -->
 <delete id="deleteMonitorPointLimits" parameterType="java.lang.Integer">
     DELETE FROM (
@@ -98,13 +102,13 @@ SQL语句：
 ```
 
 ### 6.删除数据库的序列sequence
-```XML
-删除flyway 的数据表
-1. 先进入tag_num__monitor_point表，再删除sequence 
-2. drop sequence tag_num__monitor_point_seq;
-3. 删除所有MengDa表，否则flyway报错。
-4. 启动项目重新生成项目下的所有表
-```
+
+>删除flyway 的数据表
+>1. 先进入tag_num__monitor_point表，再删除sequence 
+>2. drop sequence tag_num__monitor_point_seq;
+>3. 删除所有MengDa表，否则flyway报错。
+>4. 启动项目重新生成项目下的所有表
+
 ### 8.  oracle 数据库获取主键自增长的ID
 ```XML 标签 加入如下字段
 keyProperty="id" keyColumn="ID" useGeneratedKeys="true"
@@ -113,13 +117,16 @@ keyProperty="id" keyColumn="ID" useGeneratedKeys="true"
     VALUES (#{monitorPoint,jdbcType=VARCHAR}, #{kDescriptor,jdbcType=VARCHAR}, #{device,jdbcType=VARCHAR},
             #{tagNum,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{id,jdbcType=VARCHAR})
 </insert>
-
-
-要在代码中
-1. 先获取父表的自增长ID ，取出来
-2. 插入到子表ID
-3. 原因是ID是子表和父表的唯一外键
 ```
+
+>要在代码中
+>
+>1. 先获取父表的自增长ID ，取出来
+>
+>2. 插入到子表ID
+>
+>3. 原因是ID是子表和父表的唯一外键
+
 ```java
 /**
  * 新增一条测点位号
