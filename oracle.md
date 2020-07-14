@@ -104,9 +104,13 @@ SQL语句：
 ### 6.删除数据库的序列sequence
 
 >删除flyway 的数据表
+>
 >1. 先进入tag_num__monitor_point表，再删除sequence 
+>
 >2. drop sequence tag_num__monitor_point_seq;
+>
 >3. 删除所有MengDa表，否则flyway报错。
+>
 >4. 启动项目重新生成项目下的所有表
 
 ### 8.  oracle 数据库获取主键自增长的ID
