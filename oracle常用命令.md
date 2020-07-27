@@ -23,7 +23,7 @@
 >
 > connect sys/orcl@ORCL as sysdba
 >
-> drop user 【数据库用户名】 cascade; 
+> drop user 【数据库名】 cascade; 
 >
 > drop tablespace 【数据库名】 including contents and datafiles;
 
