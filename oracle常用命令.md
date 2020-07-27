@@ -21,14 +21,12 @@
 > exp air_ZhongHeZongTu_220ZhongHeZongTu/root@192.168.10.122:1521/air_ZhongHeZongTu_220 file=F:\项目部署资料\中核总图DEMO\ZhongHeZongTu.dmp
 
 ### 5.删除表空间
-> sqlplus /nolog
->
-> connect sys/orcl@ORCL as sysdba
->
-> drop user 【数据库名】 cascade; 
->
-> drop tablespace 【数据库名】 including contents and datafiles;
->
+```SQL
+1.sqlplus /nolog
+2.connect sys/orcl@ORCL as sysdba
+3.drop user 【数据库名】 cascade; 
+4.drop tablespace 【数据库名】 including contents and datafiles;
+```
 ### 6.建库建表
 创建表空间步骤
 最高权限用户：
