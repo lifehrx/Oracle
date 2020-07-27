@@ -1,10 +1,10 @@
-###【cmd 下执行切换至SQL】
+### 1.【cmd 下执行切换至SQL】
 > sqlplus /nolog 
 >
-###【cmd 下执行切换至SQL】
+### 2.【cmd 下执行切换至SQL】
 > connect sys/orcl@ORCL as sysdba 【连接数据库】
 > 
-###【查看数据库版本号】
+### 3.【查看数据库版本号】
 > select * from v$version; 
 >
 ### 4.【导入导出的dmp文件】注意数据库导入导出的版本是否一致
