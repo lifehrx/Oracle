@@ -14,5 +14,5 @@
 > 4. varchar2(byte) 存储的是字节。
 > 5. varchar2(char) 存储的是字符。
 > 6. Java生成的UUID为 78838162-e22e-4308-bef0-c3abe11e6d7b 可用varchar2（大小为36装满）。
->
+> 7. varchar2(2) 等同于 varchar2(2 byte) 默认。
 
