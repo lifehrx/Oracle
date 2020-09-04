@@ -4,18 +4,18 @@ Oracle ：错误总结
 
 错误原因： 把“ ”  双引号 改成  ' ' 单引号
 
-> >[2020-09-01 16:19:08] [42000][984] ORA-00984: 列在此处不允许
-> >[2020-09-01 16:19:08] Position: 716
-> >PVSS> insert into PM_PROJECT (ID, PROJECT_NAME, PARENT_ID, PROJECT_NUMBER, PROJECT_ABBREVIATION, PROJECT_TYPE,
-> >              THIRD_PROJECTID, CREATE_TIME, PLAN_STARTDATE, PLAN_ENDDATE, REAL_STARTDATE, REAL_ENDDATE, PROJECT_STATE,
-> >              CREATE_BY, CATEGORY_NAME, CONTRACT_AMOUNT)
-> >        values ("1", "压力容器PVSS", "1", "1", "PPP", "数字化交付", "1",
-> >                   to_timestamp('2019-7-19 23:23:23','yyyy-mm-dd hh24:mi:ss'),
-> >                    to_timestamp('2019-7-19 23:23:23','yyyy-mm-dd hh24:mi:ss'),
-> >                    to_timestamp('2019-7-19 23:23:23','yyyy-mm-dd hh24:mi:ss'),
-> >                    to_timestamp('2019-7-19 23:23:23','yyyy-mm-dd hh24:mi:ss'),
-> >                    to_timestamp('2019-7-19 23:23:23','yyyy-mm-dd hh24:mi:ss'),
-> >                   "0","hrx","pvss","100")
+> [2020-09-01 16:19:08] [42000][984] ORA-00984: 列在此处不允许
+> [2020-09-01 16:19:08] Position: 716
+> PVSS> insert into PM_PROJECT (ID, PROJECT_NAME, PARENT_ID, PROJECT_NUMBER, PROJECT_ABBREVIATION, PROJECT_TYPE,
+>               THIRD_PROJECTID, CREATE_TIME, PLAN_STARTDATE, PLAN_ENDDATE, REAL_STARTDATE, REAL_ENDDATE, PROJECT_STATE,
+>               CREATE_BY, CATEGORY_NAME, CONTRACT_AMOUNT)
+>         values ("1", "压力容器PVSS", "1", "1", "PPP", "数字化交付", "1",
+>                    to_timestamp('2019-7-19 23:23:23','yyyy-mm-dd hh24:mi:ss'),
+>                     to_timestamp('2019-7-19 23:23:23','yyyy-mm-dd hh24:mi:ss'),
+>                     to_timestamp('2019-7-19 23:23:23','yyyy-mm-dd hh24:mi:ss'),
+>                     to_timestamp('2019-7-19 23:23:23','yyyy-mm-dd hh24:mi:ss'),
+>                     to_timestamp('2019-7-19 23:23:23','yyyy-mm-dd hh24:mi:ss'),
+>                    "0","hrx","pvss","100")
 
 
 
