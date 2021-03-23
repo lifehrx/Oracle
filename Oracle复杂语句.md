@@ -3,6 +3,7 @@
 ##### 3. as        : 增加一列数据库中没有的临时字段 例如AS ADDING_WELDING_NUM
 ##### 4. XXXX as() : （语句1），temp as（语句2）语句1的查询结果可以1被语句2用
 ##### 5. 递增累加量 : sum(a.diameter) OVER(PARTITION BY a.project_number ORDER BY a.time)
+##### 6. with as   :处理复杂业务,数据量不是特别大时 ,可使用with as 语句
 
 ```SQL
 WITH unitInfo AS (
