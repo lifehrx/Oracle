@@ -1,6 +1,8 @@
 ##### 1. union all : 两个语句必须要用同样的字段
 ##### 2. order by  : 每增加一个order by 条件顺序就增加一种序列
 ##### 3. as        : 增加一列数据库中没有的临时字段 例如AS ADDING_WELDING_NUM
+##### 4. XXXX as() : （语句1），temp as（语句2）语句1的查询结果可以1被语句2用
+##### 5. 递增累加量 : sum(a.diameter) OVER(PARTITION BY a.project_number ORDER BY a.time)
 WITH unitInfo AS (
     SELECT *
     from (
