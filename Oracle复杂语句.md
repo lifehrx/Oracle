@@ -3,6 +3,8 @@
 ##### 3. as        : 增加一列数据库中没有的临时字段 例如AS ADDING_WELDING_NUM
 ##### 4. XXXX as() : （语句1），temp as（语句2）语句1的查询结果可以1被语句2用
 ##### 5. 递增累加量 : sum(a.diameter) OVER(PARTITION BY a.project_number ORDER BY a.time)
+
+```SQL
 WITH unitInfo AS (
     SELECT *
     from (
@@ -106,3 +108,5 @@ select b.*,
        '未焊接' AS WELDING_STATUE -- 焊接状态（未焊接）
  from temp1 b) temp2
 order by temp2.project_id, temp2.time, temp2.WELDING_STATUE;
+
+```
