@@ -1,3 +1,6 @@
+### 1. union all : 两个语句必须要用同样的字段
+### 2. order by  : 每增加一个order by 条件顺序就增加一种序列
+### 3. as        : 增加一列数据库中没有的临时字段 例如AS ADDING_WELDING_NUM
 WITH unitInfo AS (
     SELECT *
     from (
