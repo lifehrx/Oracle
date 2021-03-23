@@ -1,0 +1,103 @@
+WITH unitInfo AS (
+    SELECT *
+    from (
+        SELECT distinct pr.ID          project_id,
+                        pr.project_name,
+                        pr.project_number,
+                        pr.parent_id,
+                        UNIT.UNIT_TYPE unitType,
+                        UNIT.UNIT_NAME unitName
+        FROM TB_SYS_DEVICE DEVICE
+                 LEFT JOIN TB_SYS_PARTICIPANT_UNIT UNIT
+                           ON UNIT.PROJECT_ITEM_ID = DEVICE.ID AND UNIT.PROJECT_ITEM_TYPE = 'device'
+                 left join tb_sys_project pr on device.project_id = pr.id
+        WHERE UNIT.IS_AVAILABLE = '1'
+          and UNIT.UNIT_TYPE in ('EPC单位', '施工单位')
+    ) pivot (listagg(unitName, ',') within group (order by unitName) for unitType in ('EPC单位' epc_unit,'施工单位' work_unit))
+),temp1 as (
+    select a.project_id,
+       nvl(project.project_name, a.project_name)          parent_name, --项目群
+       a.project_name,                                                 -- 项目名称
+       a.project_number,                                               -- 项目编码
+       nvl(a.epc_unit, 'null')                            epc_unit,    -- epc单位
+       a.work_unit,                                                    --施工单位
+       "TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'yyyy-MM-dd') time,        -- 日期
+
+       case
+           when "TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'MM') = '12' and
+                ("TO_NUMBER"("TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'dd')) > 25)
+               then "TO_CHAR"("TO_NUMBER"("TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'yyyy')) + 1)
+           else "TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'yyyy') end
+                                                          nian_du,     -- 年度
+       case
+           when "TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'MM') = '12' and
+                ("TO_NUMBER"("TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'dd'))) > 25 then '1'
+           when "TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'MM') = '01' or "TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'MM') = '02'
+               then '1'
+           when "TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'MM') = '03' and
+                ("TO_NUMBER"("TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'dd'))) <= 25 then '1'
+           when "TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'MM') = '03' and
+                ("TO_NUMBER"("TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'dd'))) > 25 then '2'
+           when "TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'MM') = '04' or "TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'MM') = '05'
+               then '2'
+           when "TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'MM') = '06' and
+                ("TO_NUMBER"("TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'dd'))) <= 25 then '2'
+           when "TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'MM') = '06' and
+                ("TO_NUMBER"("TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'dd'))) > 25 then '3'
+           when "TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'MM') = '07' or "TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'MM') = '08'
+               then '3'
+           when "TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'MM') = '09' and
+                ("TO_NUMBER"("TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'dd'))) <= 25 then '3'
+           when "TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'MM') = '09' and
+                ("TO_NUMBER"("TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'dd'))) > 25 then '4'
+           when "TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'MM') = '10' or "TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'MM') = '11'
+               then '4'
+           when "TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'MM') = '12' and
+                ("TO_NUMBER"("TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'dd'))) <= 25 then '4'
+           else '0' end
+                                                          ji_du,       -- 季度
+       case
+           when "TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'MM') = '12' and
+                ("TO_NUMBER"("TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'dd'))) > 25
+               then "TO_CHAR"("TO_NUMBER"("TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'yyyy')) + 1) || '-01'
+           when "TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'MM') != '12' and
+                "TO_NUMBER"("TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'MM')) < 9
+               and ("TO_NUMBER"("TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'dd'))) > 25
+               then "TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'yyyy') || '-0' ||
+                    "TO_CHAR"("TO_NUMBER"("TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'MM')) + 1)
+           when "TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'MM') != '12' and
+                "TO_NUMBER"("TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'MM')) >= 9
+               and ("TO_NUMBER"("TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'dd'))) > 25
+               then "TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'yyyy') || '-' ||
+                    "TO_CHAR"("TO_NUMBER"("TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'MM')) + 1)
+           ELSE "TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'yyyy-MM') END
+                                                          nian_yue,    -- 年月
+       "TO_CHAR"(trunc(WELDING_DATE, 'DD'), 'day')        week,        -- 周几
+       "TO_CHAR"(trunc(WELDING_DATE, 'DD') - 1, 'iw')     week_num,    -- 第几周
+       count(1)                                           welding_num, -- 已焊接量
+       sum(w.INCHES_DIAMETER)                             diameter     -- 已焊接寸径量
+from TB_CM_WELDING_PROCESS wp
+         left join tb_cm_weld w on WP.weld_id = w."ID"
+         left join tb_cm_pipeline p on wp.pipeline_id = p.id
+         LEFT JOIN unitInfo a on p.project_id = a.project_id
+         left join tb_sys_project project on a.parent_id = project.id
+where p.is_available = '1'
+  and w.is_available = '1'
+  and WP.is_available = '1'
+  and WP.REPAIR_IDENTIFY = 0
+  and a.project_id is not null
+group by a.project_id, nvl(project.project_name, a.project_name), a.project_name, a.project_number, a.epc_unit,
+         a.work_unit, trunc(WELDING_DATE, 'DD'), a.WORK_UNIT
+)
+select * from
+(select a.*,sum(a.WELDING_NUM) OVER(PARTITION BY a.project_number ORDER BY a.time) AS ADDING_WELDING_NUM, --累计焊接量
+       sum(a.diameter) OVER(PARTITION BY a.project_number ORDER BY a.time) AS ADDING_DIAMETER, -- 累计寸径量
+       '已焊接' AS WELDING_STATUE -- 焊接状态（已焊接）
+ from temp1 a
+union all
+select b.*,
+    (sum(b.WELDING_NUM) OVER(PARTITION BY b.project_number ORDER BY b.time) - WELDING_NUM) AS ADDING_WELDING_NUM, -- 未焊接焊口数量
+     (sum(b.diameter) OVER(PARTITION BY b.project_number ORDER BY b.time)- b.diameter) AS ADDING_DIAMETER, --未焊接寸径量
+       '未焊接' AS WELDING_STATUE -- 焊接状态（未焊接）
+ from temp1 b) temp2
+order by temp2.project_id, temp2.time, temp2.WELDING_STATUE;
