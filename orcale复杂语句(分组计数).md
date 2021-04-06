@@ -1,4 +1,7 @@
-### 分别查出100% 20% 10% 5% 的数量并分组统计
+### Q:分别查出100% 20% 10% 5% 的数量并分组统计
+### 1. sum(  ) 统计函数
+### 2. case when() then *** else *** end
+
 
 ```SQL
 select sum(case when (CASE WELD.WELDS_TYPE WHEN 1 THEN ES.BUTT_JOINT_DEC_RATIO
