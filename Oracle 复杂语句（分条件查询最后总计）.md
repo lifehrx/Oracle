@@ -1,3 +1,5 @@
+#### 查询 rt, ut, mt，pt，paut, tofd 不同条件下的委托已发出焊口数，最后加和到一起 unnion all
+
 ```SQL
 -- rt委托已发出焊口
 with
