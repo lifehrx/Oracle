@@ -5,5 +5,5 @@
 #### 3. 最终查询返回的字段，是用的||拼接到一起的字段
 ```SQL
 
-   XXXX || '，' || wp.weldingMethond
+   select * from XXXX || '，' || wp.weldingMethond;
 ```
