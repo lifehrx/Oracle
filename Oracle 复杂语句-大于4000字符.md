@@ -2,6 +2,7 @@
 
 
 ```SQL
+/* 语法 */
 DECLARE
 REALLYBIGTEXTSTRING1 CLOB := 'select XXX ';
 
@@ -12,7 +13,7 @@ end;
 ```
 ```SQL
 
-/* 3. 无损检测汇总表 ： NDT_COUNT_GATHER_TABLE ： UNIQUE_RESULT_SQL*/
+/* 例子 ：无损检测汇总表 ： NDT_COUNT_GATHER_TABLE ： UNIQUE_RESULT_SQL*/
 DECLARE
 REALLYBIGTEXTSTRING1 CLOB := 'select XXX ';
 
