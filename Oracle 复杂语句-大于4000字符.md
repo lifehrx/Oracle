@@ -1,4 +1,15 @@
 ### 大于4000 字符的SQl语句
+
+
+```SQL
+DECLARE
+REALLYBIGTEXTSTRING1 CLOB := 'select XXX ';
+
+BEGIN
+UPDATE 表名 SET 字段名 = REALLYBIGTEXTSTRING1 WHERE 条件1='XXX' AND  条件2 = 'XXX';
+commit;
+end;
+```
 ```SQL
 
 /* 3. 无损检测汇总表 ： NDT_COUNT_GATHER_TABLE ： UNIQUE_RESULT_SQL*/
@@ -11,3 +22,5 @@ commit;
 end;
 
 ```
+
+
