@@ -1,10 +1,12 @@
 ### Orcale 某一个字段去重和合并
 
 
-#### 要去重的字段是zone_type， 先
+#### 语法
 ```SQl
 listagg('字段名', '分格号如，|等')  WITHIN GROUP (ORDER BY ZONE_TYPE) "数据库字段别名" from XXX group by XXX;
 ```
+
+#### 举例
 ```SQL
 例如： 
 SELECT PROJECT_NAME "projectName",LISTAGG(ZONE_TYPE,',') WITHIN GROUP (ORDER BY ZONE_TYPE) 区域类别 FROM(
